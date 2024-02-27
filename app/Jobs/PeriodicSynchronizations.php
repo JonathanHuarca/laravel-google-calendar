@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Synchronization;
+use App\Models\Synchronization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,7 +14,7 @@ class PeriodicSynchronizations implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function handle()
-    {   
+    {
         Synchronization::whereNull('resource_id')->get()->each->ping();
     }
 }

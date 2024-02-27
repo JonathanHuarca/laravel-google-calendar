@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\GoogleAccount;
+use App\Models\GoogleAccount;
 use App\Services\Google;
 use Illuminate\Http\Request;
 

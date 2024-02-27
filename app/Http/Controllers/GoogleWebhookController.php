@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Synchronization;
+use App\Models\Synchronization;
 use Illuminate\Http\Request;
 
 class GoogleWebhookController extends Controller

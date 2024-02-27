@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Concerns\Synchronizable;
+use App\Jobs\SynchronizeGoogleEvents;
+use App\Jobs\WatchGoogleEvents;
 use Illuminate\Database\Eloquent\Model;
-
 
 class Calendar extends Model
 {
