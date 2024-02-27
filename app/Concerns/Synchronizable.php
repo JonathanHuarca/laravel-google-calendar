@@ -3,7 +3,7 @@
 namespace App\Concerns;
 
 use App\Services\Google;
-use App\Synchronization;
+use App\Models\Synchronization;
 
 trait Synchronizable
 {
