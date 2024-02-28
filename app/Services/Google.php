@@ -72,4 +72,9 @@ class Google
 
         return call_user_func_array([$this->client, $method], $args);
     }
+
+    public function getClient()
+    {
+        return $this->client;
+    }
 }
