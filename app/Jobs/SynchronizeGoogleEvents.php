@@ -9,10 +9,18 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
+use App\Services\Google;
 
 class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public function getGoogleService()
+    {
+        return app(Google::class)
+            ->connectUsing($this->synchronizable->googleAccount->token) // Here we access it through the googleAccount relationship.
+            ->service('Calendar');
+    }
 
     public function getGoogleRequest($service, $options)
     {
@@ -36,16 +44,16 @@ class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements Shoul
             [
                 'name' => $googleEvent->summary ?? '(No title)',
                 'description' => $googleEvent->description,
-                'allday' => $this->isAllDayEvent($googleEvent), 
-                'started_at' => $this->parseDatetime($googleEvent->start), 
-                'ended_at' => $this->parseDatetime($googleEvent->end), 
+                'allday' => $this->isAllDayEvent($googleEvent),
+                'started_at' => $this->parseDatetime($googleEvent->start),
+                'ended_at' => $this->parseDatetime($googleEvent->end),
             ]
         );
     }
 
-    public function dropAllSyncedItems()    
-    {   
-        $this->synchronizable->events()->delete();  
+    public function dropAllSyncedItems()
+    {
+        $this->synchronizable->events()->delete();
     }
 
     protected function isAllDayEvent($googleEvent)

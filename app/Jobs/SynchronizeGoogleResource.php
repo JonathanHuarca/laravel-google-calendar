@@ -16,21 +16,21 @@ abstract class SynchronizeGoogleResource
     public function handle()
     {
         $pageToken = null;
-        $syncToken = $this->synchronization->token;
+        $syncToken = $this->synchronization->token ? $this->synchronization->token : null;
         $service = $this->synchronizable->getGoogleService('Calendar');
 
         do {
             $tokens = compact('pageToken', 'syncToken');
 
             try {
-                $list = $this->getGoogleRequest($service, $tokens); 
-            } catch (\Google_Service_Exception $e) {    
+                $list = $this->getGoogleRequest($service, $tokens);
+            } catch (\Google_Service_Exception $e) {
                 if ($e->getCode() === 410) {
-                    $this->synchronization->update(['token' => null]);  
-                    $this->dropAllSyncedItems();    
-                    return $this->handle(); 
-                }   
-                throw $e;   
+                    $this->synchronization->update(['token' => null]);
+                    $this->dropAllSyncedItems();
+                    return $this->handle();
+                }
+                throw $e;
             }
 
             foreach ($list->getItems() as $item) {

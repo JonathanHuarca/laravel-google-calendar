@@ -8,10 +8,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Google;
 
 class SynchronizeGoogleCalendars extends SynchronizeGoogleResource implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public function getGoogleService()
+    {
+        return app(Google::class)
+            ->connectWithSynchronizable($this->synchronizable)
+            ->service('Calendar');
+    }
+
 
     public function getGoogleRequest($service, $options)
     {
@@ -38,9 +47,9 @@ class SynchronizeGoogleCalendars extends SynchronizeGoogleResource implements Sh
         );
     }
 
-    public function dropAllSyncedItems()    
+    public function dropAllSyncedItems()
     {
         // Here we use `each->delete()` to make sure model listeners are called.
-        $this->synchronizable->calendars->each->delete();   
+        $this->synchronizable->calendars->each->delete();
     }
 }

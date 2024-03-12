@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Calendar;
 
 
 class Event extends Model
 {
     protected $with = ['calendar'];
-    protected $fillable = ['google_id', 'name', 'description', 'allday', 'started_at', 'ended_at'];
+    protected $fillable = ['calendar_id', 'google_id', 'name', 'description', 'allday', 'started_at', 'ended_at'];
 
     public function calendar()
     {
-        return $this->belongsTo(Calendar::class);
+        return $this->belongsTo(Calendar::class, 'calendar_id');
     }
 
     public function getStartedAtAttribute($start)
