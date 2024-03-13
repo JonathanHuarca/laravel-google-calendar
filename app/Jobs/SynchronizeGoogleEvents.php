@@ -18,7 +18,7 @@ class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements Shoul
     public function getGoogleService()
     {
         return app(Google::class)
-            ->connectUsing($this->synchronizable->googleAccount->token) // Here we access it through the googleAccount relationship.
+            ->connectWithSynchronizable($this->synchronizable)
             ->service('Calendar');
     }
 
@@ -31,6 +31,7 @@ class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements Shoul
 
     public function syncItem($googleEvent)
     {
+        // Aqui se elimina un evento especifico
         if ($googleEvent->status === 'cancelled') {
             return $this->synchronizable->events()
                 ->where('google_id', $googleEvent->id)

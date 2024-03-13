@@ -50,22 +50,6 @@ class Google
         }
     }
 
-    // protected function getTokenFromSynchronizable($synchronizable)
-    // {
-    //     return $synchronizable->getToken();
-    // }
-
-    // protected function getTokenFromSynchronizable($synchronizable)
-    // {
-    //     if ($synchronizable instanceof GoogleAccount) {
-    //         return $synchronizable->token;
-    //     } elseif ($synchronizable instanceof Calendar && $synchronizable->googleAccount) {
-    //         return $synchronizable->googleAccount->token;
-    //     } else {
-    //         throw new \Exception("Invalid Synchronizable");
-    //     }
-    // }
-
     public function revokeToken($token = null)
     {
         $token = $token ?? $this->client->getAccessToken();
